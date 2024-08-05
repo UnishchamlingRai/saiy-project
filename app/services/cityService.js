@@ -3,21 +3,18 @@ import axios from "axios";
 import { auth } from "../_lib/auth";
 
 export const getAllCities = async () => {
-  try {
-    const { user } = await auth();
-    const response = await axios.get(
-      `${process.env.BASE_URL}/admin/api/cities`,
-      {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
+  const { user } = await auth();
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/admin/api/cities`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
       },
-    );
-
-    return response.data;
-  } catch (error) {
-    throw new Error("Cities Cannot be Loaded");
-  }
+    },
+  );
+  const data = await response.json();
+  return data;
 };
 
 export const getOneCity = async (cityId) => {
