@@ -4,6 +4,14 @@ import Wrapper from "@/app/_components/UI/Wrapper";
 import AddCityContaner from "@/app/_components/Features/AddCity/AddCityContaner";
 import AddCityContextProvider from "@/app/_components/Features/AddCity/AddCityContext";
 import { getOneCity } from "@/app/services/cityService";
+
+export async function generateMetadata({ params }) {
+  const cityId = params.cityId;
+  const { data: city } = await getOneCity(cityId);
+  return {
+    title: `(${city?.city_name})-Edit-City `,
+  };
+}
 export default async function Page({ params }) {
   const data = await getOneCity(params.cityId);
 

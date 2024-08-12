@@ -1,42 +1,23 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Wrapper from "../_components/UI/Wrapper";
-
 import SearchFilterBar from "../_components/UI/SearchFilterBar";
-import Table from "../_components/UI/Table";
-import TableRow from "../_components/UI/TableRow";
 import CitiesHeader from "../_components/Features/cities/CitiesHeader";
-import CitiesFooter from "../_components/Features/cities/CitiesFooter";
-import { getAllCities } from "../services/cityService";
+import CitiesList from "../_components/Features/cities/CitiesList";
+import Spinner from "../_components/UI/Spinner";
 
 export const metadata = {
   title: "Cities",
 };
-
-const Page = async () => {
-  const { data: cities } = await getAllCities();
-
+export default async function page() {
   return (
     <Wrapper>
       <div className="flex flex-col gap-4">
         <CitiesHeader />
         <SearchFilterBar />
-        <Table
-          tableHeaders={[
-            "City Name(English)",
-            "City Name(Arabic)",
-            "Territory Area",
-            "Status",
-            "Action",
-          ]}
-        >
-          {cities.map((city, index) => (
-            <TableRow key={index} city={city} />
-          ))}
-        </Table>
-        <CitiesFooter totalCities={cities.length} />
+        <Suspense fallback={<Spinner />}>
+          <CitiesList />
+        </Suspense>
       </div>
     </Wrapper>
   );
-};
-
-export default Page;
+}

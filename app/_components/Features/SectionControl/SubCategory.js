@@ -5,8 +5,9 @@ import Table from "../../UI/Table";
 
 import Icons from "../../UI/Icons";
 import Status from "../../UI/Status";
+import Link from "next/link";
 
-const SubCategory = () => {
+const SubCategory = ({ categoryid }) => {
   return (
     <div className="mt-6 flex flex-col gap-2 rounded-md border border-gray-300 p-4">
       <h1 className="text-lg font-semibold">Management-Sub Categories</h1>
@@ -19,7 +20,11 @@ const SubCategory = () => {
             <Button variant="danger">Delete All Category</Button>
           </div>
           <div>
-            <Button variant="primary">+ Create Sub Category</Button>
+            <Button variant="primary">
+              <Link href={`/sectionControl/${categoryid}/createSubCategory`}>
+                + Create Sub Category
+              </Link>
+            </Button>
           </div>
         </div>
       </div>
@@ -41,8 +46,14 @@ const SubCategory = () => {
           </td>
 
           <td className="hidden space-x-2 border-b px-4 py-2 sm:block">
-            <Icons iconName={"edit"} link={`/sectionControl`} />
-            <Icons iconName={"details"} link={`/sectionControl`} />
+            <Icons
+              iconName={"edit"}
+              link={`/sectionControl/${categoryid}/updateSubCategory/1`}
+            />
+            <Icons
+              iconName={"details"}
+              link={`/sectionControl/${categoryid}/subCategoryDetails/1`}
+            />
             <Icons iconName={"delete"} />
           </td>
         </tr>

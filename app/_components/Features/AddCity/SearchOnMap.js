@@ -10,7 +10,6 @@ import toast from "react-hot-toast";
 
 const SearchOnMap = ({ countryid, stateid }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isOpenMap, setIsOpenMap] = useState(false);
   const { latlng, setlatlng, cityName, setCityName } = useAddCity();
 
   return (
@@ -52,19 +51,7 @@ const SearchOnMap = ({ countryid, stateid }) => {
 
             {/* MapComponent rendered below CitySelect */}
             <div>
-              <MapComponent />
-            </div>
-
-            <div className="mt-6 flex justify-end">
-              <button
-                className="mr-2 rounded-md bg-gray-200 px-4 py-2 text-gray-700"
-                onClick={() => setIsOpen(false)}
-              >
-                Cancel
-              </button>
-              <button className="rounded-md bg-blue-600 px-4 py-2 text-white">
-                Save
-              </button>
+              <MapComponent setIsOpen={setIsOpen} />
             </div>
           </div>
         </div>

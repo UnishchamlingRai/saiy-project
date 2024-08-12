@@ -10,7 +10,7 @@ const Button = ({
   disabled,
 }) => {
   const buttonClass = classNames(
-    "px-4 py-2 rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2 w-full",
+    "px-4 py-2 rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2 w-full flex justify-center items-center gap-2",
     {
       "bg-blue-500 hover:bg-blue-600 focus:ring-blue-500 text-white":
         variant === "primary",

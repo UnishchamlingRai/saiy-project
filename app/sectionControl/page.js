@@ -1,15 +1,16 @@
 import React, { Suspense } from "react";
 import Link from "next/link";
-
-import cardImage from "@/public/image/LoginImage.png"; // Adjust this path as needed
 import SearchInput from "../_components/UI/SearchInput";
 import Button from "../_components/UI/Button";
-import CategoryCard from "../_components/Features/SectionControl/CategoryCard";
+
 import Wrapper from "../_components/UI/Wrapper";
 import Head from "../_components/UI/Head";
 import CategoriesList from "../_components/Features/SectionControl/CategoriesList";
 import Spinner from "../_components/UI/Spinner";
-
+export const metadata = {
+  title: "Section Control",
+  description: "Section Control",
+};
 export default function page() {
   return (
     <Wrapper>
@@ -25,14 +26,13 @@ export default function page() {
                 Filter
               </Button>
             </div>
-
-            <div>
-              <Button>
-                <Link href="/sectionControl/createmainCategory">
-                  + Create City
-                </Link>
-              </Button>
-            </div>
+            <Link
+              prefetch={true}
+              href="/sectionControl/createmainCategory"
+              className="linkStyle"
+            >
+              + Create Category
+            </Link>
           </div>
         </div>
 

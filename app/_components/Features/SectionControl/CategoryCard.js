@@ -1,16 +1,13 @@
-"use client";
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 
 import Link from "next/link";
 import Icons from "../../UI/Icons";
 import Switch from "../../UI/Swithch";
-import Modal from "../../UI/Modal";
-import DeleteItem from "../../UI/DeleteItem";
+import DeleteButton from "../../UI/DeleteButton";
 import { deleteCategory } from "@/app/services/categoryService";
 
 const CategoryCard = ({ category }) => {
-  const [isOpenModal, setIsOpenModal] = useState();
   const {
     category_name_eng,
     category_description,
@@ -18,30 +15,20 @@ const CategoryCard = ({ category }) => {
     category_status,
     id,
   } = category;
-  console.log(category_status);
 
-  // Ensure the category_image has a valid format
   const imageUrl = category_image.startsWith("http")
     ? category_image
     : `/${category_image}`;
-  async function onConfirmDelete(password) {
-    const res = await deleteCategory(id, password);
-    // console.log("REs:", res);
-  }
+
   return (
     <div className="rounded-lg shadow hover:bg-gray-200">
       <Link href={`/sectionControl/${id}`}>
         <div className="relative h-[50px] w-full flex-1 rounded-lg">
-          {/* <Image
-            src={imageUrl}
+          <Image
+            src={`http://saity.yallagai.site${imageUrl}`}
             alt={category_name_eng}
             className="object-cover"
             fill
-          /> */}
-          <img
-            src={`${process.env.BASE_URL}/${imageUrl}`}
-            alt=""
-            className="h-[100%] w-[100%] object-cover"
           />
         </div>
 
@@ -52,20 +39,13 @@ const CategoryCard = ({ category }) => {
       </Link>
 
       <div className="flex flex-1 justify-between p-4">
-        <Switch isActive={category_status} />
-
+        <Switch isActive={category_status === "active"} />
         <div className="flex space-x-2">
           <Icons
             iconName={"edit"}
             link={`/sectionControl/updatemainCategory/${id}`}
           />
-          <Icons iconName={"delete"} onClick={() => setIsOpenModal(true)} />
-          <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
-            <DeleteItem
-              onClick={() => setIsOpenModal(false)}
-              onConfirmDelete={onConfirmDelete}
-            />
-          </Modal>
+          <DeleteButton id={id} deleteApi={deleteCategory} />
         </div>
       </div>
     </div>

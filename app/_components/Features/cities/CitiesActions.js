@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import Modal from "../../UI/Modal";
-import DeleteItem from "../../UI/DeleteItem";
+import DeleteItem from "../../UI/DeleteItemModal";
 import Icons from "../../UI/Icons";
 import { deleteCity } from "@/app/services/cityService";
 

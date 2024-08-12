@@ -3,9 +3,9 @@ import Sidebar from "./Sidebar";
 
 const Wrapper = ({ children }) => {
   return (
-    <div className="flex flex-row h-screen overflow-hidden">
+    <div className="flex h-screen flex-row overflow-y-scroll">
       <Sidebar />
-      <main className="flex-1 overflow-y-auto p-4 bg-gray-100">{children}</main>
+      <main className="flex-1 overflow-y-auto bg-gray-100 p-4">{children}</main>
     </div>
   );
 };

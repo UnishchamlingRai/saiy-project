@@ -1,8 +1,7 @@
 import { Manrope } from "next/font/google";
 import "./globals.css";
-import { getUser } from "./_lib/helper";
+
 import { Toaster } from "react-hot-toast";
-import QueryProvider from "./_lib/QueryProvider";
 
 const manrope = Manrope({ subsets: ["latin"], display: "swap" });
 
@@ -43,7 +42,7 @@ export default function RootLayout({ children }) {
             },
           }}
         />
-        <QueryProvider>{children}</QueryProvider>
+        {children}
       </body>
     </html>
   );

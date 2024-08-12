@@ -21,7 +21,7 @@ export const getOneCity = async (cityId) => {
   try {
     const { user } = await auth();
     const response = await axios.get(
-      `${process.env.BASE_URL}/admin/api/city/${cityId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/admin/api/city/${cityId}`,
       {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -37,8 +37,12 @@ export const getOneCity = async (cityId) => {
 export const createCity = async (data) => {
   try {
     const { user } = await auth();
+    if (!user || !user.token) {
+      throw new Error("User authentication failed");
+    }
+
     const response = await axios.post(
-      `${process.env.BASE_URL}/admin/api/cities`,
+      `${process.env.NEXT_PUBLIC_API_URL}/admin/api/cities`,
       data,
       {
         headers: {
@@ -47,18 +51,23 @@ export const createCity = async (data) => {
         },
       },
     );
+
     return response.data;
   } catch (error) {
-    throw new Error("City create Fail please Try Again");
+    if (error.response) {
+      console.error("API Error:", error.response.data);
+    } else {
+      console.error("ERROR:", error.message);
+    }
+    throw new Error("City creation failed. Please try again.");
   }
 };
-
 export const updateCity = async (id, data) => {
-  console.log("id:", id);
+  console.log("data:", data);
   try {
     const { user } = await auth();
-    const response = await axios.patch(
-      `${process.env.BASE_URL}/admin/api/cities/${id}`,
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/admin/api/cities/${id}`,
       data,
       {
         headers: {
@@ -69,7 +78,7 @@ export const updateCity = async (id, data) => {
     );
     return response.data;
   } catch (error) {
-    console.error("ERROR", error.response?.data || error.message);
+    console.error("ERROR", error);
     throw new Error("City Update Failed. Please Try Again.");
   }
 };
@@ -79,7 +88,7 @@ export const deleteCity = async (cityId, password) => {
   try {
     const { user } = await auth();
     const response = await axios.delete(
-      `${process.env.BASE_URL}/admin/api/delete-city/${cityId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/admin/api/delete-city/${cityId}`,
       password,
       {
         headers: {

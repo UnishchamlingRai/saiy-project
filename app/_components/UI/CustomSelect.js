@@ -8,7 +8,7 @@ export default function CustomSelect({
   placeholder,
 }) {
   return (
-    <div className="relative inline-block w-full sm:w-auto">
+    <div className="relative inline-block w-full sm:w-full">
       <select
         value={value}
         onChange={onChange}

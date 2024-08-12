@@ -6,7 +6,7 @@ export async function getAllCategories() {
   const { user } = await auth();
   try {
     const response = await axios.get(
-      `${process.env.BASE_URL}/admin/api/category`,
+      `${process.env.NEXT_PUBLIC_API_URL}/admin/api/category`,
       {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -24,7 +24,7 @@ export async function getOneCategory(id) {
   const { user } = await auth();
   try {
     const response = await axios.get(
-      `${process.env.BASE_URL}/admin/api/category/${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/admin/api/category/${id}`,
       {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -41,7 +41,7 @@ export async function createCategory(data) {
   try {
     const { user } = await auth();
     const response = await axios.post(
-      `${process.env.BASE_URL}/admin/api/category`,
+      `${process.env.NEXT_PUBLIC_API_URL}/admin/api/category`,
       data,
       {
         headers: {
@@ -57,11 +57,10 @@ export async function createCategory(data) {
 }
 
 export async function updateCategory(id, data) {
-  console.log("data:", data);
   try {
     const { user } = await auth();
-    const response = await axios.put(
-      `${process.env.BASE_URL}/admin/api/category/${id}`,
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/admin/api/category/${id}`,
       data,
       {
         headers: {
@@ -77,12 +76,10 @@ export async function updateCategory(id, data) {
 }
 
 export async function deleteCategory(id, password) {
-  console.log("id:", id);
-  console.log("pass:", password);
   try {
     const { user } = await auth();
     const res = await fetch(
-      `${process.env.BASE_URL}/admin/api/delete-category/${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/admin/api/delete-category/${id}`,
       {
         method: "post",
         headers: {
@@ -94,8 +91,7 @@ export async function deleteCategory(id, password) {
     );
 
     const response = await res.json();
-    console.log("REs:", response);
-    return response.data;
+    return response;
   } catch (error) {
     throw new Error("Category delete failed. Please try again.");
   }

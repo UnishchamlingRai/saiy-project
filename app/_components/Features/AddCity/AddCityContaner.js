@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 import Switch from "../../UI/Swithch";
 
 const AddCityContainer = ({ editcityData }) => {
-  console.log("editcityData:", editcityData);
   const {
     setCountryName,
     setCityName,
@@ -24,6 +23,7 @@ const AddCityContainer = ({ editcityData }) => {
     cityName,
     image,
     latlng,
+    setImage,
   } = useAddCity();
   const [isActive, setIsActive] = useState(false);
   const router = useRouter();
@@ -41,6 +41,10 @@ const AddCityContainer = ({ editcityData }) => {
 
   useEffect(() => {
     if (editcityData) {
+      setCountryName(editcityData.city_country);
+      setCityName(editcityData.city_name);
+      setlatlng([editcityData.city_latitude, editcityData.city_longitude]);
+      // setImage(editcityData.city_image);
       setIsActive(editcityData.city_status === "active");
     }
   }, [editcityData]);
@@ -54,14 +58,21 @@ const AddCityContainer = ({ editcityData }) => {
       formData.append("city_longitude", latlng[1]);
       formData.append("city_name_arabic", data.cityNameArabic);
       formData.append("city_territory_area", data.territoryArea);
-      formData.append("city_status", isActive ? "active" : "inactive");
-      formData.append("city_image", image);
+      if (isActive) {
+        formData.append("city_status", "active");
+      }
+      // formData.append("city_image", image);
 
       // console.log("FormData entries:", formData.entries());
 
       if (editcityData?.id) {
         // For update city
+        console.log("FromData:", formData);
+        formData.append("_method", "PUT");
         const res = await updateCity(editcityData.id, formData);
+        if (res.error) {
+          return toast.error(res.error);
+        }
         console.log("Update response:", res);
         toast.success("City updated successfully");
       } else {
@@ -72,7 +83,7 @@ const AddCityContainer = ({ editcityData }) => {
 
       router.push("/cities");
     } catch (error) {
-      console.error("Submission error:", error.message);
+      console.error("Submission error:", error);
       toast.error("Failed to save the city. Please try again.");
     }
   }

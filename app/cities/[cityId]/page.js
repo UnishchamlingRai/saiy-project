@@ -1,12 +1,20 @@
-import ImageSection from "@/app/_components/Features/CityDetails/ImageSection";
 import Neighborhoods from "@/app/_components/Features/CityDetails/Neighborhoods";
 import Wrapper from "@/app/_components/UI/Wrapper";
 import Head from "@/app/_components/UI/Head";
 import React from "react";
-import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { getOneCity } from "@/app/services/cityService";
 import StatusRow from "@/app/_components/UI/Status";
 import Row from "@/app/_components/UI/Row";
+import SideImage from "@/app/_components/UI/SideImage";
+
+export async function generateMetadata({ params }) {
+  const cityId = params.cityId;
+  const { data: city } = await getOneCity(cityId);
+
+  return {
+    title: `${city?.city_name}- City Details`,
+  };
+}
 
 const neighborhoods = [
   "شارع الامام سوكوكو رقم 12 المدينة المنورة",
@@ -16,7 +24,7 @@ const neighborhoods = [
 
 export default async function Page({ params }) {
   const cityId = params.cityId;
-  const { data: city } = (await getOneCity(cityId)) || {};
+  const { data: city } = await getOneCity(cityId);
 
   return (
     <Wrapper>
@@ -44,7 +52,7 @@ export default async function Page({ params }) {
 
             <Neighborhoods neighborhoods={neighborhoods} />
           </div>
-          <ImageSection cityImage={city?.city_image} />
+          <SideImage image={city?.city_image} />
         </div>
       </div>
     </Wrapper>

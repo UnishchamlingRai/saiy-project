@@ -8,6 +8,7 @@ const InputField = ({
   errors,
   name,
   isTextArea = false,
+  ...props
 }) => {
   if (type === "textarea") {
     return (
@@ -16,6 +17,7 @@ const InputField = ({
           {label}
         </label>
         <textarea
+          {...props}
           rows="4"
           cols="50"
           placeholder={label}
@@ -37,6 +39,7 @@ const InputField = ({
           {label}
         </label>
         <input
+          {...props}
           placeholder={label}
           type={type}
           {...register(name, required && { required: `${label} is required` })}

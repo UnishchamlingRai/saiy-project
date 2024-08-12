@@ -3,14 +3,13 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
+        protocol: "http",
         hostname: "saity.yallagai.site",
         port: "",
-        pathname: "/image/**", // Corrected the pathname pattern
+        pathname: "/image/**",
       },
     ],
   },
-  // output: "export",
 };
 
 export default nextConfig;

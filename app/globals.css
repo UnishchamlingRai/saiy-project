@@ -2,10 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+@import "react-country-state-city/dist/react-country-state-city.css";
+
 @layer components {
   /* .input{
     @apply flex 
   } */
+  .linkStyle {
+    @apply rounded-lg bg-primary-500 p-2 text-center text-gray-50 transition-all duration-500 hover:bg-primary-400;
+  }
   .selectCountry {
     padding: 0px;
   }

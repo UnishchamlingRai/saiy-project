@@ -9,25 +9,14 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Switch from "../../UI/Swithch";
 
-const MainCategoryCreateForm = ({ category }) => {
+const MainCategoryCreateForm = ({ categoryid }) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm({
-    defaultValues: {
-      main_category_name_arabic: category?.category_name_arabic || "",
-      main_category_name_english: category?.category_name_eng || "",
-      main_category_description_arabic:
-        category?.category_description_arabic || "",
-      main_category_description_english: category?.category_description || "",
-      category_image: category?.category_image || "",
-    },
-  });
-  const [isActive, setIsActive] = useState(
-    () => category?.category_status === "active",
-  );
-  const [isRemoved, setIsRemoved] = useState(() => (category ? true : false));
+  } = useForm({});
+  const [isActive, setIsActive] = useState(false);
+
   const router = useRouter();
 
   async function onSubmit(data) {
@@ -51,15 +40,12 @@ const MainCategoryCreateForm = ({ category }) => {
     if (category_image && category_image[0]) {
       formData.append("category_image", category_image[0]);
     }
+    if (categoryid) {
+      formData.append("category_parent_id", categoryid);
+    }
+    const res = categoryid ? "" : await createCategory(formData);
 
-    const res = category
-      ? await updateCategory(category.id, formData)
-      : await createCategory(formData);
-    console.log("res:", res);
-    if (
-      res.message === "A category is added successfully." ||
-      res.message === "Category updated successfully."
-    ) {
+    if (res.message === "A category is added successfully.") {
       toast.success(res.message);
       router.push("/sectionControl");
     } else {
@@ -104,32 +90,14 @@ const MainCategoryCreateForm = ({ category }) => {
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
-          {isRemoved ? (
-            <>
-              <div className="h-[300px] w-[300px]">
-                <h1 className="mb-3 text-sm">Main Category Image</h1>
-                <img
-                  src={`${process.env.BASE_URL}/${category?.category_image}`}
-                  alt={category?.category_name_eng}
-                />
-                <button
-                  type="button"
-                  className="rounded-md p-2 font-bold text-danger-600"
-                  onClick={() => setIsRemoved(false)}
-                >
-                  Remove Image
-                </button>
-              </div>
-            </>
-          ) : (
-            <InputField
-              type="file"
-              name="category_image"
-              label="Upload image"
-              register={register}
-              errors={errors}
-            />
-          )}
+          <InputField
+            type="file"
+            name="category_image"
+            label="Upload image"
+            register={register}
+            errors={errors}
+          />
+
           <div>
             <p>Status</p>
             <Switch isActive={isActive} setIsActive={setIsActive} />

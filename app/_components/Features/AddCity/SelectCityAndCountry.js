@@ -17,7 +17,7 @@ export default function SelectCityAndCountry({ editcityData }) {
   // const [city,setCity]=useState()
   const { setCountryName, setCityName, countryName, setlatlng, cityName } =
     useAddCity();
-
+  console.log("CountryName:", countryName);
   function addCityData(city) {
     setCityName(city.name);
     setlatlng([city.latitude, city.longitude]);
@@ -33,6 +33,7 @@ export default function SelectCityAndCountry({ editcityData }) {
       <div className="flex flex-col gap-1">
         <h6>Country</h6>
         <CountrySelect
+          // defaultValue={countryName && countryName}
           showFlag={false}
           // defaultValue={editcityData?.city_country}
           onChange={addCountryData}
@@ -68,6 +69,7 @@ export default function SelectCityAndCountry({ editcityData }) {
         <div className="flex flex-1 flex-col gap-1">
           <h6>City</h6>
           <CitySelect
+            value={cityName}
             countryid={countryid}
             stateid={stateid}
             onChange={addCityData}

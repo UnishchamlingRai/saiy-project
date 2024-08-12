@@ -11,7 +11,7 @@ export default async function Sidebar() {
   } = await auth();
 
   return (
-    <div className="hidden h-screen w-auto flex-col justify-between overflow-hidden bg-white p-2 shadow sm:flex sm:w-64 sm:p-8">
+    <div className="hidden h-screen w-auto flex-col justify-between overflow-y-scroll bg-white p-2 shadow sm:flex sm:w-72 sm:p-8">
       <nav className="space-y-4">
         <div className="mb-8 flex">
           <Link href="/">

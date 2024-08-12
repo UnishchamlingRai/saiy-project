@@ -4,7 +4,7 @@ import InputField from "./InputField";
 import Button from "./Button";
 import { useForm } from "react-hook-form";
 
-const ConfirmDelete = ({ onClick, onConfirmDelete }) => {
+const ConfirmDeleteModal = ({ onClick, onConfirmDelete }) => {
   const {
     register,
     handleSubmit,
@@ -42,4 +42,4 @@ const ConfirmDelete = ({ onClick, onConfirmDelete }) => {
   );
 };
 
-export default ConfirmDelete;
+export default ConfirmDeleteModal;

@@ -1,14 +1,14 @@
+"use client";
 import React, { useState } from "react";
 import { FaQuestion } from "react-icons/fa";
 import Button from "./Button";
 import Modal from "./Modal";
-import ConfirmDelete from "./ConfirmDelete";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
-const DeleteItem = ({ onClick, onConfirmDelete }) => {
+const DeleteItemModal = ({ onClick, onConfirmDelete }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   function handelYesDelete() {
     setIsOpenModal(true);
-    // onClick();
   }
   return (
     <div className="flex flex-col items-center justify-center gap-4">
@@ -29,11 +29,14 @@ const DeleteItem = ({ onClick, onConfirmDelete }) => {
           </Button>
         </div>
         <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
-          <ConfirmDelete onClick={onClick} onConfirmDelete={onConfirmDelete} />
+          <ConfirmDeleteModal
+            onClick={onClick}
+            onConfirmDelete={onConfirmDelete}
+          />
         </Modal>
       </div>
     </div>
   );
 };
 
-export default DeleteItem;
+export default DeleteItemModal;

@@ -1,7 +1,7 @@
 import React from "react";
 import Row from "../../UI/Row";
 import Status from "../../UI/Status";
-import Image from "next/image";
+import SideImage from "../../UI/SideImage";
 
 const MainCategory = ({ category }) => {
   const {
@@ -12,9 +12,7 @@ const MainCategory = ({ category }) => {
     category_status,
     category_image,
   } = category;
-  const imageUrl = category_image.startsWith("http")
-    ? category_image
-    : `/${category_image}`;
+
   return (
     <div className="flex gap-4 rounded-lg border border-gray-300 p-4">
       <div className="flex-1 space-y-4">
@@ -31,15 +29,8 @@ const MainCategory = ({ category }) => {
           <Status status={category_status} />
         </div>
       </div>
-      <div className="h-4/4 w-full flex-shrink-0 rounded-lg border border-primary-500 md:w-1/3">
-        <img src={`${process.env.BASE_URL}/${imageUrl}`} alt="" />
-        {/* <Image
-          src={imageUrl}
-          alt="Vehicle Image"
-          fill
-          className="rounded-lg object-cover"
-        /> */}
-      </div>
+
+      <SideImage image={category_image} />
     </div>
   );
 };

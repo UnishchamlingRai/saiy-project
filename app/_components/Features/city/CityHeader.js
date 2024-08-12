@@ -15,7 +15,9 @@ const CityHeader = () => {
             <div className="flex items-center gap-2">
               <FaRegEye className="text-primary-500" />{" "}
               <span className="text-sm">
-                <Link href="/cities">See All City</Link>
+                <Link href="/cities" prefetch={true}>
+                  See All City
+                </Link>
               </span>
             </div>
           </Button>
