@@ -14,6 +14,66 @@ export default function NavLink({ href, icon, name }) {
   // console.log("pathName:", pathName.split("/"));
   // console.log("pathName:", pathName.split("/")[1]);
 
+  ///////////////////Add-Ons/////////////////////
+  if (href === "/add-on/cars") {
+    return (
+      <div className="flex flex-col gap-2">
+        <div
+          className={`flex cursor-pointer items-center justify-center rounded p-1 px-4 font-bold sm:justify-start ${
+            isActive
+              ? "bg-gray-200 text-primary-500"
+              : "text-gray-900 hover:bg-gray-200"
+          }`}
+        >
+          <div
+            className="relative flex w-full items-center justify-between"
+            onClick={() => setIsOpenMember(!isOpenMember)}
+          >
+            <div className="flex items-center space-x-2">
+              {icon}
+              <span className="ml-2 hidden sm:block">{name}</span>
+              <div className="absolute left-0 hidden rounded bg-black p-1 text-xs text-white group-hover:block sm:hidden">
+                {name}
+              </div>
+            </div>
+            <span>
+              <RiArrowRightWideLine width={16} />
+            </span>
+          </div>
+        </div>
+        {isOpenMember && (
+          <div className="ml-5 flex flex-col border-l-2 border-primary-200 pl-5">
+            <Link
+              key={"end-user"}
+              prefetch={true}
+              className={`p-2 ${pathName === "/add-ons/cars" && "font-bold text-primary-500"}`}
+              href="/add-on/cars"
+            >
+              Cars
+            </Link>
+            <Link
+              key={"stores"}
+              prefetch={true}
+              className={`p-2 ${pathName === "/add-on/apartments" && "font-bold text-primary-500"}`}
+              href="/add-on/apartments"
+            >
+              Apartments
+            </Link>
+            <Link
+              key={"stores"}
+              prefetch={true}
+              className={`p-2 ${pathName === "/add-ons/land" && "font-bold text-primary-500"}`}
+              href="/add-on/land"
+            >
+              Land
+            </Link>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  //////////////////////////////SuggestionsAndComplaints//////////////////////////////////////////////////////
   if (href === "/SuggestionsAndComplaints/endUsers") {
     return (
       <div className="flex flex-col gap-2">
@@ -63,6 +123,7 @@ export default function NavLink({ href, icon, name }) {
       </div>
     );
   }
+  ////////////////////////////////Member//////////////////////////////////////////////////////
   if (href === "/member") {
     return (
       <div className="flex flex-col gap-2">
@@ -120,6 +181,8 @@ export default function NavLink({ href, icon, name }) {
       </div>
     );
   }
+
+  ////////////////////////////////Other Pages//////////////////////////////////////////////////////
   return (
     <Link
       prefetch={true}

@@ -9,6 +9,7 @@ import { RiAdvertisementLine } from "react-icons/ri";
 import { CiCreditCard1 } from "react-icons/ci";
 import { GrCompliance } from "react-icons/gr";
 import { CiSettings } from "react-icons/ci";
+import { PiSquaresFourLight } from "react-icons/pi";
 export const navLinks = [
   {
     link: "/",
@@ -70,5 +71,10 @@ export const navLinks = [
     link: "/settings",
     icon: <CiSettings />,
     name: "Settings",
+  },
+  {
+    link: "/add-on/cars",
+    icon: <PiSquaresFourLight />,
+    name: "Add-on",
   },
 ];
