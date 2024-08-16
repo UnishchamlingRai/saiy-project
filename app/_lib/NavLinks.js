@@ -58,9 +58,9 @@ export const navLinks = [
   },
 
   {
-    link: "/shippingcard",
+    link: "/rechargeCard",
     icon: <CiCreditCard1 />,
-    name: "Shipping Card",
+    name: "Recharge Card",
   },
   {
     link: "/SuggestionsAndComplaints/endUsers",
@@ -76,5 +76,10 @@ export const navLinks = [
     link: "/add-on/cars",
     icon: <PiSquaresFourLight />,
     name: "Add-on",
+  },
+  {
+    link: "/Add-ons/cars",
+    icon: <PiSquaresFourLight />,
+    name: "Add-ons",
   },
 ];

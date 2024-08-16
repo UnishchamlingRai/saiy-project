@@ -11,14 +11,14 @@ const DeleteButton = ({ id, deleteApi }) => {
   const router = useRouter();
   async function onConfirmDelete(password) {
     const res = await deleteApi(id, password);
-    console.log("REs:", res);
 
-    if (res.message === "A category is removed.") {
+    if (res.status === 200) {
       toast.success(res.message);
       router.refresh();
     } else {
       toast.error(
-        "Failed to delete category. Please try again with correct password.",
+        res.message ||
+          "Failed to delete This item. Please try again with correct password.",
       );
     }
   }

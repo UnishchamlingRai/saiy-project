@@ -8,17 +8,24 @@ import toast from "react-hot-toast";
 
 import { useRouter } from "next/navigation";
 import Switch from "../../UI/Swithch";
+import UploadImage from "../../UI/UploadImage";
 
 const MainCategoryCreateForm = ({ categoryid }) => {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors, isSubmitting },
-  } = useForm({});
-  const [isActive, setIsActive] = useState(false);
+  } = useForm({
+    defaultValues: {
+      main_category_description_english: "Hello",
+    },
+  });
 
   const router = useRouter();
-
+  const watchCategoryImage = watch("category_image");
+  const watchCategoryStatus = watch("category_status");
   async function onSubmit(data) {
     const formData = new FormData();
     const {
@@ -36,7 +43,10 @@ const MainCategoryCreateForm = ({ categoryid }) => {
       "category_description_arabic",
       main_category_description_arabic,
     );
-    formData.append("category_status", isActive ? "active" : "inactive");
+    formData.append(
+      "category_status",
+      watchCategoryStatus ? "active" : "inactive",
+    );
     if (category_image && category_image[0]) {
       formData.append("category_image", category_image[0]);
     }
@@ -44,8 +54,9 @@ const MainCategoryCreateForm = ({ categoryid }) => {
       formData.append("category_parent_id", categoryid);
     }
     const res = categoryid ? "" : await createCategory(formData);
+    console.log("res:", res);
 
-    if (res.message === "A category is added successfully.") {
+    if (res.status === 200) {
       toast.success(res.message);
       router.push("/sectionControl");
     } else {
@@ -90,17 +101,29 @@ const MainCategoryCreateForm = ({ categoryid }) => {
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <InputField
+          <UploadImage
+            register={register}
+            errors={errors}
+            value={"category_image"}
+            label={"Upload Category image"}
+            required={true}
+            setValue={setValue}
+            watchImage={watchCategoryImage}
+          />
+          {/* <InputField
             type="file"
             name="category_image"
             label="Upload image"
             register={register}
             errors={errors}
-          />
+          /> */}
 
           <div>
             <p>Status</p>
-            <Switch isActive={isActive} setIsActive={setIsActive} />
+            <Switch
+              isActive={watchCategoryStatus}
+              onClick={() => setValue("category_status", !watchCategoryStatus)}
+            />
             <div className="mt-2 flex space-x-2">
               <input type="checkbox" />
               <p>Add Sub Categories to Main Category?</p>

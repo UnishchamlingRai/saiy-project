@@ -25,7 +25,7 @@ const UploadImage = ({
   }, [watchImage]);
 
   const removeImage = () => {
-    setValue("imageVerification", null);
+    setValue(value, null);
     setImage(null);
   };
 

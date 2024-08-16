@@ -2,9 +2,9 @@ import Wrapper from "@/app/_components/UI/Wrapper";
 import Head from "@/app/_components/UI/Head";
 
 import SearchInput from "@/app/_components/UI/SearchInput";
-import PolicesAndTermOfUseList from "@/app/_components/Features/policesAndTermOfUse/policesAndTermOfUseList";
 
 import AddSettingItems from "@/app/_components/Features/settings/AddSettingItems";
+import PolicesAndTermOfUseList from "@/app/_components/Features/settings/policesAndTermOfUse/PolicesAndTermOfUseList";
 
 export const metadata = {
   title: "Settings - Policies and Terms of Use",

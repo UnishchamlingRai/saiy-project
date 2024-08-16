@@ -7,7 +7,8 @@ import { BiMessageAltDots } from "react-icons/bi";
 import { HiSignal } from "react-icons/hi2";
 import { IoMailOpenOutline } from "react-icons/io5";
 import { AiOutlineMessage } from "react-icons/ai";
-
+import { FaQuestionCircle } from "react-icons/fa";
+import { IoIosContact } from "react-icons/io";
 export const metadata = {
   title: "Settings",
   description: "Settings",
@@ -44,7 +45,7 @@ export default function page() {
           title="Support messages"
           description="Information regarding help messages from admins to moderators and end users"
         />
-        <SettingCard
+        {/* <SettingCard
           href={"/settings/messages"}
           icon={
             <IoMailOpenOutline className="mb-4 text-4xl text-warning-500" />
@@ -57,6 +58,18 @@ export default function page() {
           icon={<AiOutlineMessage className="mb-4 text-4xl text-success-500" />}
           title="Messages between members and moderators"
           description="About providing messages from members and moderators"
+        /> */}
+        <SettingCard
+          href={"/settings/masterFAQ"}
+          icon={<FaQuestionCircle className="mb-4 text-4xl text-primary-500" />}
+          title="Master FAQ"
+          description="Master Frequently Asked Questions for the application"
+        />
+        <SettingCard
+          href={"/settings/masterContact"}
+          icon={<IoIosContact className="mb-4 text-4xl text-success-500" />}
+          title="Master Contact"
+          description="Master contact information for the application"
         />
       </div>
     </Wrapper>

@@ -15,6 +15,64 @@ export default function NavLink({ href, icon, name }) {
   // console.log("pathName:", pathName.split("/")[1]);
 
   ///////////////////Add-Ons/////////////////////
+  if (href === "/Add-ons/cars") {
+    return (
+      <div className="flex flex-col gap-2">
+        <div
+          className={`flex cursor-pointer items-center justify-center rounded p-1 px-4 font-bold sm:justify-start ${
+            isActive
+              ? "bg-gray-200 text-primary-500"
+              : "text-gray-900 hover:bg-gray-200"
+          }`}
+        >
+          <div
+            className="relative flex w-full items-center justify-between"
+            onClick={() => setIsOpenMember(!isOpenMember)}
+          >
+            <div className="flex items-center space-x-2">
+              {icon}
+              <span className="ml-2 hidden sm:block">{name}</span>
+              <div className="absolute left-0 hidden rounded bg-black p-1 text-xs text-white group-hover:block sm:hidden">
+                {name}
+              </div>
+            </div>
+            <span>
+              <RiArrowRightWideLine width={16} />
+            </span>
+          </div>
+        </div>
+        {isOpenMember && (
+          <div className="ml-5 flex flex-col border-l-2 border-primary-200 pl-5">
+            <Link
+              key={"add-ons-cars"}
+              prefetch={true}
+              className={`p-2 ${pathName === "/Add-ons/cars" && "font-bold text-primary-500"}`}
+              href="/Add-ons/cars"
+            >
+              Cars
+            </Link>
+            <Link
+              key={"apartments"}
+              prefetch={true}
+              className={`p-2 ${pathName === "/add-on/apartments" && "font-bold text-primary-500"}`}
+              href="/Add-ons/apartments"
+            >
+              Apartments
+            </Link>
+            <Link
+              key={""}
+              prefetch={true}
+              className={`p-2 ${pathName === "/Add-ons/land" && "font-bold text-primary-500"}`}
+              href="/Add-ons/land"
+            >
+              Land
+            </Link>
+          </div>
+        )}
+      </div>
+    );
+  }
+  ///////////////////Add-On/////////////////////
   if (href === "/add-on/cars") {
     return (
       <div className="flex flex-col gap-2">
@@ -46,7 +104,7 @@ export default function NavLink({ href, icon, name }) {
             <Link
               key={"end-user"}
               prefetch={true}
-              className={`p-2 ${pathName === "/add-ons/cars" && "font-bold text-primary-500"}`}
+              className={`p-2 ${pathName === "/add-on/cars" && "font-bold text-primary-500"}`}
               href="/add-on/cars"
             >
               Cars
@@ -62,7 +120,7 @@ export default function NavLink({ href, icon, name }) {
             <Link
               key={"stores"}
               prefetch={true}
-              className={`p-2 ${pathName === "/add-ons/land" && "font-bold text-primary-500"}`}
+              className={`p-2 ${pathName === "/add-on/land" && "font-bold text-primary-500"}`}
               href="/add-on/land"
             >
               Land
