@@ -1,10 +1,7 @@
 import Wrapper from "@/app/_components/UI/Wrapper";
 import Head from "@/app/_components/UI/Head";
-
 import SearchInput from "@/app/_components/UI/SearchInput";
-
 import MasterContactList from "@/app/_components/Features/settings/MasterContact/MasterContactList";
-
 import SearchAddFilterMasterContact from "@/app/_components/Features/settings/MasterContact/SearchAddFilterMasterContact";
 
 export const metadata = {
