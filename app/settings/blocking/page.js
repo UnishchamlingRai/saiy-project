@@ -21,7 +21,6 @@ export default function Page() {
     <Wrapper>
       <Head title="Settings - Blocking" />
       <SearchInput />
-
       <div className="mt-2">
         <Table
           tableHeaders={["User ID", "Name", "Email", "Phone Number", "Action"]}

@@ -10,7 +10,7 @@ import {
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useState, useEffect } from "react";
-import { useAddCity } from "../AddCity/AddCityContext";
+import { useAddCity } from "./AddCityContext";
 import { useGeolocation } from "@/app/hooks/useGeoLocation";
 // "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=0&longitude=0"
 // Fixing default icon issue in React Leaflet

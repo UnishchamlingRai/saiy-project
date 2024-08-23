@@ -10,8 +10,10 @@ const UploadImage = ({
   setValue,
   label,
   required = false,
+  defaultImage = null,
 }) => {
   const [image, setImage] = useState(null);
+  const [showDefaultImage, setShowDefaultImage] = useState(defaultImage);
 
   useEffect(() => {
     if (watchImage && watchImage[0]) {
@@ -27,6 +29,7 @@ const UploadImage = ({
   const removeImage = () => {
     setValue(value, null);
     setImage(null);
+    setShowDefaultImage(null);
   };
 
   return (
@@ -34,12 +37,17 @@ const UploadImage = ({
       <label className="block text-sm font-medium text-gray-900">{label}</label>
       <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 p-2">
         <div className="w-full space-y-1 text-center">
-          {image ? (
+          {image || showDefaultImage ? (
             <div className="flex flex-col items-center gap-2">
               <div className="relative h-[200px] w-full">
                 <Image
                   fill
-                  src={image}
+                  // src={image}
+                  src={
+                    showDefaultImage
+                      ? `${process.env.NEXT_PUBLIC_API_URL}/${defaultImage}`
+                      : image
+                  }
                   alt="Uploaded"
                   className="object-cover"
                 />

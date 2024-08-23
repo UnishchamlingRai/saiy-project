@@ -15,8 +15,10 @@ import { useRouter } from "next/navigation";
 import Switch from "../../UI/Swithch";
 
 const AddCityContainer = ({ editcityData }) => {
+  // console.log("editcityData:", editcityData);
   const {
     setCountryName,
+    countryid,
     setCityName,
     countryName,
     setlatlng,
@@ -24,64 +26,90 @@ const AddCityContainer = ({ editcityData }) => {
     image,
     latlng,
     setImage,
+    setCountryid,
   } = useAddCity();
-  const [isActive, setIsActive] = useState(false);
+
   const router = useRouter();
 
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
       cityNameArabic: editcityData?.city_name_arabic || "",
       territoryArea: editcityData?.city_territory_area || "",
+      city_status: editcityData?.city_status || false,
     },
   });
+  const watchCityStatus = watch("city_status");
 
   useEffect(() => {
     if (editcityData) {
       setCountryName(editcityData.city_country);
       setCityName(editcityData.city_name);
       setlatlng([editcityData.city_latitude, editcityData.city_longitude]);
+      // setCountryid(editcityData.country_id);
       // setImage(editcityData.city_image);
-      setIsActive(editcityData.city_status === "active");
     }
   }, [editcityData]);
 
   async function onSubmit(data) {
+    console.log(data);
     try {
       const formData = new FormData();
-      formData.append("city_country", countryName);
+
       formData.append("city_name", cityName);
       formData.append("city_latitude", latlng[0]);
       formData.append("city_longitude", latlng[1]);
       formData.append("city_name_arabic", data.cityNameArabic);
       formData.append("city_territory_area", data.territoryArea);
-      if (isActive) {
-        formData.append("city_status", "active");
-      }
-      // formData.append("city_image", image);
 
       // console.log("FormData entries:", formData.entries());
 
       if (editcityData?.id) {
         // For update city
         console.log("FromData:", formData);
+        if (countryName) {
+          formData.append("city_country", countryName);
+        }
+        if (countryid) {
+          formData.append("country_id", countryid);
+        }
+        console.log("image:", image);
+        if (image) {
+          formData.append("city_image", image);
+        }
         formData.append("_method", "PUT");
         const res = await updateCity(editcityData.id, formData);
+        console.log("res:", res);
+
+        if (res?.status === 200) {
+          toast.success(res?.message);
+          router.push("/cities");
+        }
+
+        if (res?.error) {
+          return toast.error(res?.error);
+        }
+      } else {
+        formData.append("city_image", image);
+        formData.append("city_country", countryName);
+        formData.append("country_id", countryid);
+
+        const res = await createCity(formData);
+        if (res.status === 201) {
+          toast.success(res.message);
+          router.push("/cities");
+        }
         if (res.error) {
           return toast.error(res.error);
         }
-        console.log("Update response:", res);
-        toast.success("City updated successfully");
-      } else {
-        const res = await createCity(formData);
-        console.log("Create response:", res);
-        toast.success("City created successfully");
       }
 
-      router.push("/cities");
+      // router.push("/cities");
     } catch (error) {
       console.error("Submission error:", error);
       toast.error("Failed to save the city. Please try again.");
@@ -119,7 +147,10 @@ const AddCityContainer = ({ editcityData }) => {
         <FileUpload editImage={editcityData?.city_image} />
         <div className="mt-2 space-y-1">
           <p>Status</p>
-          <Switch isActive={isActive} setIsActive={setIsActive} />
+          <Switch
+            isActive={watchCityStatus}
+            onClick={() => setValue("city_status", !watchCityStatus)}
+          />
         </div>
 
         <div className="mt-6 flex justify-end">

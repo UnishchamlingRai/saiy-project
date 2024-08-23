@@ -4,18 +4,13 @@ import Modal from "../../UI/Modal";
 import SelectLocationOnMaps from "./SelectLocationOnMaps";
 import AddNeigborhoodForm from "./AddNeigborhoodForm";
 
-export default function AddNeigborhoods() {
+export default function AddNeigborhoods({ cityId }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [step, setStep] = useState(1);
-  const [location, setLocation] = useState([24.470901, 39.612236]);
+
   const openModal = () => {
-    setStep(1);
     setIsOpen(true);
   };
   const closeModal = () => setIsOpen(false);
-
-  const nextStep = () => setStep(2);
-  const prevStep = () => setStep(1);
 
   return (
     <div className="flex items-center justify-center bg-gray-100">
@@ -27,18 +22,17 @@ export default function AddNeigborhoods() {
       </button>
 
       <Modal isOpen={isOpen} onClose={closeModal}>
-        {step === 1 ? (
-          <div className="max-h-[80%]">
-            <AddNeigborhoodForm nextStep={nextStep} closeModal={closeModal} />
-          </div>
-        ) : (
-          <SelectLocationOnMaps
-            prevStep={prevStep}
-            setLocation={setLocation}
-            location={location}
-          />
-        )}
+        <div className="max-h-[80%]">
+          <AddNeigborhoodForm closeModal={closeModal} cityId={cityId} />
+        </div>
       </Modal>
     </div>
   );
+}
+{
+  /* <SelectLocationOnMaps
+prevStep={prevStep}
+setLocation={setLocation}
+location={location}
+/> */
 }

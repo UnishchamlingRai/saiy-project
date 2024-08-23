@@ -1,12 +1,9 @@
-"use client";
 import Button from "@/app/_components/UI/Button";
 import CustomSelect from "@/app/_components/UI/CustomSelect";
-import React, { useState } from "react";
+import React from "react";
 import AddMasterContactForm from "./AddMasterContactForm";
-import Modal from "@/app/_components/UI/Modal";
 
 const SearchAddFilterMasterContact = () => {
-  const [isOpenModal, setIsOpenModal] = useState(false);
   return (
     <div>
       <div className="flex items-center justify-between gap-4">

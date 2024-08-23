@@ -6,15 +6,19 @@ import DeleteItemModal from "./DeleteItemModal";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-const DeleteButton = ({ id, deleteApi }) => {
+const DeleteButton = ({ id, deleteApi, withPassword = true }) => {
   const [isOpenModal, setIsOpenModal] = useState();
   const router = useRouter();
   async function onConfirmDelete(password) {
-    const res = await deleteApi(id, password);
+    const res = withPassword
+      ? await deleteApi(id, password)
+      : await deleteApi(id);
+    // console.log("response:", res);
 
-    if (res.status === 200) {
+    if (res?.status === 200) {
       toast.success(res.message);
       router.refresh();
+      setIsOpenModal(false);
     } else {
       toast.error(
         res.message ||
@@ -27,6 +31,7 @@ const DeleteButton = ({ id, deleteApi }) => {
       <Icons iconName={"delete"} onClick={() => setIsOpenModal(true)} />
       <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
         <DeleteItemModal
+          withPassword={withPassword}
           onClick={() => setIsOpenModal(false)}
           onConfirmDelete={onConfirmDelete}
         />

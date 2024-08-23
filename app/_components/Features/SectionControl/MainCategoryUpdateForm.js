@@ -8,12 +8,17 @@ import { useRouter } from "next/navigation";
 
 import { updateCategory } from "@/app/services/categoryService";
 import Switch from "../../UI/Swithch";
-import Image from "next/image";
+
+import UploadImage from "../../UI/UploadImage";
 
 const MainCategoryUpdateForm = ({ category }) => {
+  // console.log(category?.category_image);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -22,15 +27,13 @@ const MainCategoryUpdateForm = ({ category }) => {
       main_category_description_arabic:
         category?.category_description_arabic || "",
       main_category_description_english: category?.category_description || "",
-      category_image: category?.category_image || "",
+      // category_image: category?.category_image || "",
+      category_status:
+        category?.category_status === "active" ? true : false || "",
     },
   });
-
-  const [isActive, setIsActive] = useState(
-    category?.category_status === "active",
-  );
-  const [isRemoved, setIsRemoved] = useState(false);
-  const router = useRouter();
+  const watchStatus = watch("category_status");
+  console.log("watchStatus:", watchStatus);
 
   async function onSubmit(data) {
     const formData = new FormData();
@@ -49,11 +52,13 @@ const MainCategoryUpdateForm = ({ category }) => {
       "category_description_arabic",
       main_category_description_arabic,
     );
-    formData.append("category_status", isActive ? "active" : "inactive");
+    if (watchStatus) {
+      formData.append("category_status", "active");
+    }
     console.log("formData:", data);
     console.log("image:", category_image);
 
-    if (isRemoved) {
+    if (!category?.category_image) {
       formData.append("category_image", category_image[0]);
     }
 
@@ -65,7 +70,8 @@ const MainCategoryUpdateForm = ({ category }) => {
 
       if (res.message === "A category is updated successfully.") {
         toast.success(res.message);
-        router.push("/sectionControl");
+        router.refresh("/sectionControl");
+        router.back();
       } else {
         toast.error(res.message);
       }
@@ -111,7 +117,17 @@ const MainCategoryUpdateForm = ({ category }) => {
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
-          {category.category_image && !isRemoved ? (
+          <UploadImage
+            defaultImage={category?.category_image}
+            register={register}
+            errors={errors}
+            value={"category_image"}
+            label={"Upload Category image"}
+            required={true}
+            setValue={setValue}
+            watchImage={watch("category_image")}
+          />
+          {/* {category.category_image && !isRemoved ? (
             <div className="w-full">
               <h1 className="mb-3 text-sm">Main Category Image</h1>
               <div className="relative h-[200px] w-full">
@@ -138,10 +154,13 @@ const MainCategoryUpdateForm = ({ category }) => {
               register={register}
               errors={errors}
             />
-          )}
+          )} */}
           <div>
             <p>Status</p>
-            <Switch isActive={isActive} setIsActive={setIsActive} />
+            <Switch
+              isActive={watchStatus}
+              onClick={() => setValue("category_status", !watchStatus)}
+            />
             <div className="mt-2 flex space-x-2">
               <input type="checkbox" />
               <p>Add Sub Categories to Main Category?</p>
@@ -150,7 +169,9 @@ const MainCategoryUpdateForm = ({ category }) => {
         </div>
       </div>
       <div className="mx-auto mt-6 flex w-2/4 gap-2">
-        <Button variant="secondary">Cancel</Button>
+        <Button onClick={() => router.back()} variant="secondary">
+          Cancel
+        </Button>
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Submitting..." : "Submit"}
         </Button>

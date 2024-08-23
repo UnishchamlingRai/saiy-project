@@ -6,7 +6,10 @@ import { getAllCities } from "@/app/services/cityService";
 import CitiesFooter from "./CitiesFooter";
 
 const CitiesList = async () => {
-  const { data: cities } = await getAllCities();
+  const {
+    data: { items: cities },
+  } = await getAllCities();
+
   return (
     <>
       <Table

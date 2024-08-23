@@ -6,25 +6,27 @@ import { getOneCity } from "@/app/services/cityService";
 import StatusRow from "@/app/_components/UI/Status";
 import Row from "@/app/_components/UI/Row";
 import SideImage from "@/app/_components/UI/SideImage";
+import { getAllneighborhoodForOneCity } from "@/app/services/neighborhoodService";
 
 export async function generateMetadata({ params }) {
   const cityId = params.cityId;
   const { data: city } = await getOneCity(cityId);
-
   return {
     title: `${city?.city_name}- City Details`,
   };
 }
 
-const neighborhoods = [
-  "شارع الامام سوكوكو رقم 12 المدينة المنورة",
-  "جالان نور إيمان رقم 1",
-  // Add more neighborhood names here
-];
+// const neighborhoods = [
+//   "شارع الامام سوكوكو رقم 12 المدينة المنورة",
+//   "جالان نور إيمان رقم 1",
+//   // Add more neighborhood names here
+// ];
 
 export default async function Page({ params }) {
   const cityId = params.cityId;
   const { data: city } = await getOneCity(cityId);
+  const { data: neighborhoodsList } =
+    await getAllneighborhoodForOneCity(cityId);
 
   return (
     <Wrapper>
@@ -50,7 +52,7 @@ export default async function Page({ params }) {
             <Row title={"Country"} value={city?.city_country} />
             <StatusRow status={city?.city_status} />
 
-            <Neighborhoods neighborhoods={neighborhoods} />
+            <Neighborhoods neighborhoods={neighborhoodsList} cityId={cityId} />
           </div>
           <SideImage image={city?.city_image} />
         </div>

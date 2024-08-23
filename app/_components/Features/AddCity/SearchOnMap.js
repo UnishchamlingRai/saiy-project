@@ -4,7 +4,7 @@ import { CitySelect } from "react-country-state-city";
 
 import Modal from "../../UI/Modal";
 import SearchInput from "../../UI/SearchInput";
-import MapComponent from "../CityDetails/MapComponent";
+import MapComponent from "./MapComponent";
 import { useAddCity } from "./AddCityContext";
 import toast from "react-hot-toast";
 

@@ -1,27 +1,22 @@
+"use client";
 import DeleteButton from "@/app/_components/UI/DeleteButton";
 import Icons from "@/app/_components/UI/Icons";
 import Table from "@/app/_components/UI/Table";
 
-import React from "react";
+import React, { useState } from "react";
 import Status from "../../UI/Status";
+import FilterSearchCreate from "./FilterSearchCreate";
 
-const CouponsList = async () => {
-  const coupons = [
-    {
-      id: 1,
-      coupon_name: "test",
-      coupon_discount_code: "test",
-      coupon_dates: "test",
-      coupon_discount_percentage: "test",
-      coupon_total_redemption: "test",
-      coupon_type_of_user_targeted: "test",
-      coupon_status: "active",
-    },
-  ];
-
-  // console.log(endUsers);
+const CouponsList = ({ coupons }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const filteredCoupons = coupons.filter((coupon) =>
+    coupon.coupon_name.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
   return (
     <div className="mt-2">
+      <div className="mb-4">
+        <FilterSearchCreate onSetSearchTerm={setSearchTerm} />
+      </div>
       <Table
         tableHeaders={[
           "Coupon Name",
@@ -34,35 +29,32 @@ const CouponsList = async () => {
           "Action",
         ]}
       >
-        {coupons.map((coupons, index) => {
+        {filteredCoupons.map((coupons, index) => {
           const {
             id,
             coupon_name,
-            coupon_discount_code,
-            coupon_dates,
-            coupon_discount_percentage,
-            coupon_total_redemption,
-            coupon_type_of_user_targeted,
-            coupon_status,
+            discount_code,
+            start_date,
+            end_date,
+            discount_percentage,
+            no_of_users,
+            targated_user_type,
+            status,
           } = coupons;
           return (
             <tr className="hover:bg-gray-50" key={index}>
               <td className="border-b px-4 py-2">{coupon_name}</td>
-              <td className="border-b px-4 py-2">{coupon_discount_code}</td>
-              <td className="border-b px-4 py-2">{coupon_dates}</td>
+              <td className="border-b px-4 py-2">{discount_code}</td>
+              <td className="border-b px-4 py-2">{`${start_date} - ${end_date}`}</td>
+              <td className="border-b px-4 py-2">{discount_percentage}</td>
+              <td className="border-b px-4 py-2">{no_of_users}</td>
+              <td className="border-b px-4 py-2">{targated_user_type}</td>
               <td className="border-b px-4 py-2">
-                {coupon_discount_percentage}
-              </td>
-              <td className="border-b px-4 py-2">{coupon_total_redemption}</td>
-              <td className="border-b px-4 py-2">
-                {coupon_type_of_user_targeted}
-              </td>
-              <td className="border-b px-4 py-2">
-                <Status status={coupon_status} />
+                <Status status={status} />
               </td>
               <td className="flex space-x-2 border-b px-4 py-2">
-                <Icons link="/member/endUser/update/1" iconName="edit" />
-                <Icons link={`/member/enduser/${id}`} iconName="details" />
+                <Icons iconName="edit" link={`/coupons/update/${id}`} />
+                <Icons link={`/coupons/${id}`} iconName="details" />
                 {/* <DeleteEndUser id={id} /> */}
               </td>
             </tr>

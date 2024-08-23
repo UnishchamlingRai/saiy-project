@@ -1,98 +1,42 @@
 "use server";
-import axios from "axios";
-import { auth } from "../_lib/auth";
-
+import {
+  create,
+  deleteByPassword,
+  getAll,
+  getOne,
+  update,
+} from "./CURDfactory";
+/////////////////////MAIN-CATEGORY////////////////////////////////
 export async function getAllCategories() {
-  const { user } = await auth();
-  try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/admin/api/category`,
-      {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      },
-    );
-
-    return response.data;
-  } catch (error) {
-    throw new Error("Categories Cannot be Loaded");
-  }
+  return await getAll("/admin/api/category");
 }
 
 export async function getOneCategory(id) {
-  const { user } = await auth();
-  try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/admin/api/category/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      },
-    );
-    return response.data;
-  } catch (error) {
-    throw new Error("Category Cannot be Loaded");
-  }
+  return await getOne(`/admin/api/category/${id}`);
 }
 
 export async function createCategory(data) {
-  try {
-    const { user } = await auth();
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/admin/api/category`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      },
-    );
-    return response.data;
-  } catch (error) {
-    throw new Error("Category creation failed. Please try again.");
-  }
+  return await create("/admin/api/category", data);
 }
-
 export async function updateCategory(id, data) {
-  try {
-    const { user } = await auth();
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/admin/api/category/${id}`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      },
-    );
-    return response.data;
-  } catch (error) {
-    throw new Error("Category update failed. Please try again.");
-  }
+  return await update(`/admin/api/category/${id}`, data);
+}
+export async function deleteCategory(id, password) {
+  return await deleteByPassword(`/admin/api/delete-category/${id}`, password);
 }
 
-export async function deleteCategory(id, password) {
-  try {
-    const { user } = await auth();
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/admin/api/delete-category/${id}`,
-      {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({ password }),
-      },
-    );
+/////////////////////SUB-CATEGORY////////////////////////////////
+export async function getAllSubCategories() {
+  return await getAll("/admin/api/sub-categories");
+}
+export async function createSubCategory(data) {
+  return await create("/admin/api/category", data);
+}
 
-    const response = await res.json();
-    return response;
-  } catch (error) {
-    throw new Error("Category delete failed. Please try again.");
-  }
+export async function deleteSubCategory(id, password) {
+  return await deleteByPassword(`/admin/api/delete-category/${id}`, password);
+}
+
+export async function getOneSubCategory(id) {
+  return await getOne(`/admin/api/category/${id}`);
 }

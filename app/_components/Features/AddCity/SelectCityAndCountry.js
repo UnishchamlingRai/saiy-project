@@ -11,22 +11,35 @@ import { useAddCity } from "./AddCityContext";
 import toast from "react-hot-toast";
 
 export default function SelectCityAndCountry({ editcityData }) {
+  // console.log(editcityData);
   // console.log(editcityData.city_country);
-  const [countryid, setCountryid] = useState(0);
+  // const [countryid, setCountryid] = useState(0);
   const [stateid, setstateid] = useState(0);
   // const [city,setCity]=useState()
-  const { setCountryName, setCityName, countryName, setlatlng, cityName } =
-    useAddCity();
-  console.log("CountryName:", countryName);
+  const {
+    setCountryName,
+    setCityName,
+    countryName,
+    setlatlng,
+    cityName,
+    setCountryid,
+    countryid,
+  } = useAddCity();
+  // console.log("CountryName:", countryName);
   function addCityData(city) {
     setCityName(city.name);
     setlatlng([city.latitude, city.longitude]);
     console.log(city);
   }
   function addCountryData(country) {
+    console.log("country:", country);
     setCountryid(country.id);
     setCountryName(country.name);
   }
+  // const defaultCountry = {
+  //   name: "Algeria",
+  //   id: 4,
+  // };
 
   return (
     <div className="flex flex-col gap-2 text-sm font-medium text-gray-700">
@@ -50,6 +63,7 @@ export default function SelectCityAndCountry({ editcityData }) {
         <h6>State</h6>
 
         <StateSelect
+          // defaultValue={defaultState}
           // disabled={true}
           countryid={countryid}
           onClick={() => {

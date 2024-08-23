@@ -5,10 +5,17 @@ import Button from "./Button";
 import Modal from "./Modal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
-const DeleteItemModal = ({ onClick, onConfirmDelete }) => {
+const DeleteItemModal = ({ onClick, onConfirmDelete, withPassword }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
-  function handelYesDelete() {
-    setIsOpenModal(true);
+  const [isLoading, setIsLoading] = useState(false);
+  async function handelYesDelete() {
+    if (withPassword) {
+      setIsOpenModal(true);
+    } else {
+      setIsLoading(true);
+      await onConfirmDelete();
+      setIsLoading(false);
+    }
   }
   return (
     <div className="flex flex-col items-center justify-center gap-4">
@@ -24,8 +31,12 @@ const DeleteItemModal = ({ onClick, onConfirmDelete }) => {
           </Button>
         </div>
         <div>
-          <Button variant="danger" onClick={handelYesDelete}>
-            Yes Delete
+          <Button
+            disabled={isLoading}
+            variant="danger"
+            onClick={handelYesDelete}
+          >
+            {isLoading ? "Deleting..." : "Yes, Delete"}
           </Button>
         </div>
         <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>

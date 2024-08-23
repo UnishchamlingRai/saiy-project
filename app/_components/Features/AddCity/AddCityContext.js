@@ -6,9 +6,11 @@ const AddCityContext = createContext();
 const AddCityContextProvider = ({ children }) => {
   const [latlng, setlatlng] = useState([28.0, 84.0]);
   const [countryName, setCountryName] = useState("");
+  const [countryid, setCountryid] = useState(0);
   const [stateName, setStateName] = useState("");
   const [cityName, setCityName] = useState("");
-  const [image, setImage] = useState({});
+  const [image, setImage] = useState("");
+
   return (
     <AddCityContext.Provider
       value={{
@@ -22,6 +24,8 @@ const AddCityContextProvider = ({ children }) => {
         setStateName,
         image,
         setImage,
+        setCountryid,
+        countryid,
       }}
     >
       {children}

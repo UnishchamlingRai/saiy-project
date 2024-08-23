@@ -5,7 +5,7 @@ import { useAddCity } from "./AddCityContext";
 import testIMage from "@/public/image/LoginImage.png";
 
 const FileUpload = ({ editImage }) => {
-  console.log("editImage:", editImage);
+  // console.log("editImage:", editImage);
   const [imageUrl, setImageUrl] = useState(
     editImage ? `http://saity.yallagai.site/${editImage}` : null,
   );

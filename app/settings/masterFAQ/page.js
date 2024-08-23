@@ -25,7 +25,6 @@ export default function Page() {
       <Head title="Settings - Master FAQ" />
       <div className="jstify-between flex items-center gap-2">
         <SearchInput />
-
         <SearchFilterAddFAQ />
       </div>
       <div className="mt-2">

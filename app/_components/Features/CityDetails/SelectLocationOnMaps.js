@@ -2,40 +2,28 @@
 import React, { useState, useEffect } from "react";
 import SearchInput from "../../UI/SearchInput";
 import { TbCurrentLocation } from "react-icons/tb";
-import MapComponent from "./MapComponent";
+import MapComponent from "../AddCity/MapComponent";
+import PreviewMap from "./PreviewMap";
+import { useGeolocation } from "@/app/hooks/useGeoLocation";
 
-const SelectLocationOnMaps = ({ prevStep, setLocation, location }) => {
+const SelectLocationOnMaps = ({
+  closeSelectLocationOnMaps,
+  setNeighborhoodData,
+  neighborhoodData,
+}) => {
   const [isOpenMap, setIsOpenMap] = useState(false);
-
-  const handleUseCurrentLocation = () => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setLocation([position.coords.latitude, position.coords.longitude]);
-        setIsOpenMap(true);
-      },
-      (error) => {
-        console.error("Error getting current location:", error);
-      },
-    );
-  };
-
-  const handleLocationSelect = (lat, lon) => {
-    setLocation([lat, lon]);
-    setIsOpenMap(true);
-  };
-
-  const handleSearch = (e) => {
-    console.log(e.target.value);
-    const city = e.target.value;
-    // Dummy data, you can integrate with an actual geocoding service
-    const locations = {
-      "شارع الامام سوكوكو رقم 12 المدينة المنورة": [24.470901, 39.612236],
-    };
-    if (locations[city]) {
-      setLocation(locations[city]);
-      setIsOpenMap(true);
+  const [location, setLocation] = useState([24.470901, 39.612236]);
+  const { getPosition, position, isLoading } = useGeolocation();
+  useEffect(() => {
+    if (position) {
+      setLocation([position.lat, position.lng]);
     }
-  };
+  }, [position]);
+
+  function handelCurrentLocation() {
+    getPosition();
+    setIsOpenMap(true);
+  }
 
   return (
     <div className="overflow-hidden rounded-md bg-white p-4">
@@ -43,28 +31,25 @@ const SelectLocationOnMaps = ({ prevStep, setLocation, location }) => {
         Select Location on Maps
       </h2>
 
-      <SearchInput onChange={handleSearch} />
+      <SearchInput />
 
       {!isOpenMap ? (
         <>
-          <button
-            onClick={handleUseCurrentLocation}
-            className="mt-2 flex w-full items-center gap-2 rounded-md border bg-white px-4 py-2 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
-          >
+          <button className="mt-2 flex w-full items-center gap-2 rounded-md border bg-white px-4 py-2 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
             <TbCurrentLocation className="text-primary-500" />
-            <span>Use current location</span>
+            <span onClick={handelCurrentLocation}>Use current location</span>
           </button>
 
           <div className="mt-4">
             <ul className="overflow-y-scroll rounded-lg text-gray-700 shadow">
               <li
-                onClick={() => handleLocationSelect(24.470901, 39.612236)}
+                onClick={() => setIsOpenMap(true)}
                 className="cursor-pointer border-b border-gray-400 p-2 hover:bg-gray-400"
               >
                 شارع الامام سوكوكو رقم 12 المدينة المنورة
               </li>
               <li
-                onClick={() => handleLocationSelect(24.470901, 39.612236)}
+                onClick={() => setIsOpenMap(true)}
                 className="cursor-pointer border-b border-gray-400 p-2 hover:bg-gray-400"
               >
                 شارع
@@ -73,17 +58,25 @@ const SelectLocationOnMaps = ({ prevStep, setLocation, location }) => {
           </div>
         </>
       ) : (
-        <MapComponent location={location} />
+        <PreviewMap
+          setNeighborhoodData={setNeighborhoodData}
+          neighborhoodData={neighborhoodData}
+          location={location}
+          setLocation={setLocation}
+        />
       )}
 
       <div className="mt-6 flex justify-end">
         <button
           className="mr-2 rounded-md bg-gray-200 px-4 py-2 text-gray-700"
-          onClick={prevStep}
+          onClick={closeSelectLocationOnMaps}
         >
           Cancel
         </button>
-        <button className="rounded-md bg-blue-600 px-4 py-2 text-white">
+        <button
+          onClick={closeSelectLocationOnMaps}
+          className="rounded-md bg-blue-600 px-4 py-2 text-white"
+        >
           Save
         </button>
       </div>

@@ -3,7 +3,10 @@
 import React from "react";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { IoIosCheckmarkCircle } from "react-icons/io";
-import CitiesActions from "../Features/cities/CitiesActions";
+
+import Icons from "./Icons";
+import DeleteButton from "./DeleteButton";
+import { deleteCity } from "@/app/services/cityService";
 
 const TableRow = ({ city }) => {
   return (
@@ -30,8 +33,10 @@ const TableRow = ({ city }) => {
         </span>
       </td>
 
-      <td className="hidden border-b px-4 py-2 sm:block">
-        <CitiesActions cityId={city.id} />
+      <td className="space-x-2 border-b px-4 py-2 sm:block">
+        <Icons link={`/cities/${city.id}`} iconName={"details"} />
+        <Icons link={`/cities/updateCity/${city.id}`} iconName={"edit"} />
+        <DeleteButton id={city.id} deleteApi={deleteCity} withPassword={true} />
       </td>
     </tr>
   );

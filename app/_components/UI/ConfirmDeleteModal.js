@@ -8,7 +8,7 @@ const ConfirmDeleteModal = ({ onClick, onConfirmDelete }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
   function onSubmit(data) {
@@ -35,7 +35,9 @@ const ConfirmDeleteModal = ({ onClick, onConfirmDelete }) => {
           </Button>
         </div>
         <div className="flex-1">
-          <Button type="submit">Save</Button>
+          <Button disabled={isSubmitting} type="submit">
+            {isSubmitting ? "Saving..." : "Save"}
+          </Button>
         </div>
       </div>
     </form>

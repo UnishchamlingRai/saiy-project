@@ -3,7 +3,7 @@ import Row from "../../UI/Row";
 import Status from "../../UI/Status";
 import SideImage from "../../UI/SideImage";
 
-const MainCategory = ({ category }) => {
+const MainCategoryDetails = ({ category }) => {
   const {
     category_name_eng,
     category_name_arabic,
@@ -35,4 +35,4 @@ const MainCategory = ({ category }) => {
   );
 };
 
-export default MainCategory;
+export default MainCategoryDetails;

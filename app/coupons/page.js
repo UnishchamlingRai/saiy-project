@@ -9,12 +9,16 @@ import Button from "../_components/UI/Button";
 import Link from "next/link";
 import CouponsList from "../_components/Features/Coupons/CouponsList";
 import FilterSearchCreate from "../_components/Features/Coupons/FilterSearchCreate";
+import { getAllCoupons } from "../services/couponService";
 
 export const metadata = {
   title: "Coupons",
   description: "Coupons",
 };
-export default function page() {
+export default async function page() {
+  const { data: coupons } = await getAllCoupons();
+  // console.log(data);
+
   return (
     <Wrapper>
       <Head title={"Coupons"} />
@@ -42,12 +46,7 @@ export default function page() {
           />
         </div>
 
-        <div className="p-4 shadow">
-          <FilterSearchCreate />
-          <div>
-            <CouponsList />
-          </div>
-        </div>
+        <CouponsList coupons={coupons} />
       </div>
     </Wrapper>
   );

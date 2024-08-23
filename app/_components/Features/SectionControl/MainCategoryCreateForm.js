@@ -11,6 +11,7 @@ import Switch from "../../UI/Swithch";
 import UploadImage from "../../UI/UploadImage";
 
 const MainCategoryCreateForm = ({ categoryid }) => {
+  console.log("categoryid:", categoryid);
   const {
     register,
     handleSubmit,
@@ -43,22 +44,28 @@ const MainCategoryCreateForm = ({ categoryid }) => {
       "category_description_arabic",
       main_category_description_arabic,
     );
-    formData.append(
-      "category_status",
-      watchCategoryStatus ? "active" : "inactive",
-    );
+    if (watchCategoryStatus) {
+      formData.append("category_status", "active");
+    }
+
     if (category_image && category_image[0]) {
       formData.append("category_image", category_image[0]);
     }
     if (categoryid) {
       formData.append("category_parent_id", categoryid);
     }
-    const res = categoryid ? "" : await createCategory(formData);
-    console.log("res:", res);
+    const res = await createCategory(formData);
+    // console.log("res:", res);
 
     if (res.status === 200) {
       toast.success(res.message);
-      router.push("/sectionControl");
+      if (categoryid) {
+        router.push(`/sectionControl/${categoryid}`);
+        router.refresh(`/sectionControl/${categoryid}`);
+      } else {
+        router.push("/sectionControl");
+        router.refresh("/sectionControl");
+      }
     } else {
       toast.error(res.message);
     }
@@ -132,7 +139,12 @@ const MainCategoryCreateForm = ({ categoryid }) => {
         </div>
       </div>
       <div className="mx-auto mt-6 flex w-2/4 gap-2">
-        <Button variant="secondary">Cancel</Button>
+        <Button
+          onClick={() => router.push("/sectionControl")}
+          variant="secondary"
+        >
+          Cancel
+        </Button>
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Submitting..." : "Submit"}
         </Button>
