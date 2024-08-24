@@ -1,8 +1,8 @@
 "use client";
 import Button from "@/app/_components/UI/Button";
-import CustomSelect from "@/app/_components/UI/CustomSelect";
+
 import InputField from "@/app/_components/UI/InputField";
-import Modal from "@/app/_components/UI/Modal";
+
 import Switch from "@/app/_components/UI/Swithch";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
